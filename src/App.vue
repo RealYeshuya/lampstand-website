@@ -1,7 +1,8 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">Sermon</router-link>
+    <router-link to="/sermon">Sermon</router-link> |
+    <router-link to="/speaker">Speakers</router-link>
   </nav>
   <router-view />
 </template>

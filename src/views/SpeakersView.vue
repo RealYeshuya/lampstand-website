@@ -1,17 +1,17 @@
 <template>
   <div class="about">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <SermonPage />
+    <SpeakerPage />
   </div>
 </template>
 
 <script>
-import SermonPage from "@/components/SermonPage.vue";
+import SpeakerPage from "@/components/SpeakerPage.vue";
 
 export default {
   name: "HomeView",
   components: {
-    SermonPage,
+    SpeakerPage,
   },
 };
 </script>

@@ -1,56 +1,39 @@
 <template>
   <h1>Speakers</h1>
   <ul>
-    <li v-for="speaker in speakers" :key="speaker.id">
+    <li
+      v-for="speaker in speakers"
+      :key="speaker.id"
+      style="list-style-type: none"
+    >
       <h2>{{ speaker.attributes.name }}</h2>
+      <h3>Sermons:</h3>
       <!-- TODO research how to get relational entity in graphql -->
-      <ul>
+      <ul style="list-style-type: none">
         <li v-for="sermon in speaker.attributes.sermons.data" :key="sermon.id">
-          <h5>{{ sermon }}</h5>
+          <h5>{{ sermon.attributes.title }}</h5>
         </li>
       </ul>
-      <!-- <ul>
-        <li v-for="sermon in speakers.data.sermons" :key="sermon.id">
-          {{ sermon.attributes.name }}
-        </li>
-      </ul> -->
     </li>
   </ul>
 </template>
 
-<script setup>
-import gql from "graphql-tag";
+<script>
 import { useQuery } from "@vue/apollo-composable";
-import { watchEffect, computed } from "vue";
+import { defineComponent, watchEffect, computed } from "vue";
+import { ALL_SPEAKER_QUERY } from "@/composables/use-graphql";
 
-const ALL_SPEAKER_QUERY = gql`
-  query {
-    speakers {
-      data {
-        id
-        attributes {
-          name
-          email
-          phoneNumber
-          sermons {
-            data {
-              id
-              attributes {
-                title
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+export default defineComponent({
+  setup() {
+    const { result } = useQuery(ALL_SPEAKER_QUERY);
 
-const { result } = useQuery(ALL_SPEAKER_QUERY);
+    const speakers = computed(() => result.value?.speakers.data ?? []);
 
-const speakers = computed(() => result.value?.speakers.data ?? []);
+    watchEffect(() => {
+      console.log(speakers);
+    });
 
-watchEffect(() => {
-  console.log(speakers);
+    return { speakers };
+  },
 });
 </script>
